@@ -5,10 +5,14 @@
 
 ## Standards
 
-- Python version: `3.10`
-- Documentation format: [Google](https://google.github.io/styleguide/pyguide.html)
-- Code formatting: [Black](https://black.readthedocs.io/en/stable/integrations/editors.html)
-- Line length: `100`
+**Python version:** `3.10`
+
+- Coding conventions: [PEP 8](https://pep8.org/)
+    - Opinionated line length: `100`
+    - Compliant opinionated
+      format: [Black](https://black.readthedocs.io/en/stable/integrations/editors.html)
+    - Compliant opinionated documentation
+      format: [Google](https://google.github.io/styleguide/pyguide.html)
 
 ## Setup
 
