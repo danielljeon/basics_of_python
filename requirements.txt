@@ -1,1 +1,5 @@
 # $ pip install -r requirements.txt
+
+# /beginner/projects/daily_planner_1.py
+python-dateutil~=2.8.2
+APScheduler~=3.10.1
