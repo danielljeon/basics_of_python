@@ -20,10 +20,12 @@ Note:
     and reinforce concepts of python coding in a fun and interactive way.
 """
 
-from apscheduler.schedulers.background import BackgroundScheduler  # Scheduling package
-from datetime import datetime
-import dateutil.parser as dparser
 import json  # JSON is for long term storage of the user's specified
+from datetime import datetime
+from typing import Callable
+
+import dateutil.parser as dparser
+from apscheduler.schedulers.background import BackgroundScheduler  # Scheduling package
 
 USER_NAME = "Daniel"
 DEFAULT_JSON_FILE_PATH = "reminders.json"
@@ -32,7 +34,7 @@ print(f"-------------------- {USER_NAME}'s Daily Planner --------------------")
 
 
 def create_new_reminder(
-    name: str, remind_at: list[str], details: str = ""
+    name: str, remind_at: list[str], details: str = "", category: str = None
 ) -> dict[str, str | list[datetime]]:
     # Extract the datetime from strings which specify reminder notification datetime.
     datetime_list = []
@@ -43,7 +45,14 @@ def create_new_reminder(
     # The same code above but with list comprehension.
     # datetime_list = [dparser.parse(r, fuzzy=True, dayfirst=False) for r in remind_at]
 
-    return {"name": name, "remind_at": datetime_list, "details": details}
+    return {"name": name, "remind_at": datetime_list, "details": details, "category": category}
+
+
+def get_category_function(
+    reminder: dict[str, str | list[datetime]]
+) -> tuple[Callable, list | tuple]:
+    if reminder.get("category") == "print":
+        return print_reminder, [reminder]
 
 
 def print_reminder(reminder: dict[str, str | list[datetime]]):
@@ -94,7 +103,8 @@ def add_reminder_to_scheduler(
     remind_at_datetimes = reminder.get("remind_at")
 
     for dt in remind_at_datetimes:
-        scheduler.add_job(print_reminder, args=[reminder], trigger="date", run_date=dt)
+        action, args = get_category_function(reminder=reminder)
+        scheduler.add_job(action, args=args, trigger="date", run_date=dt)
 
 
 def main():
@@ -106,7 +116,7 @@ def main():
 
     # STEP 1:
     reminder = create_new_reminder(
-        name="Sleep", remind_at=["2023-08-01 00:38:40"], details="Go to sleep!!!"
+        name="Sleep", remind_at=["2023-08-01 00:38:40"], details="Go to sleep!!!", category="print"
     )
     all_reminders.append(reminder)
 
