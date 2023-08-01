@@ -1,3 +1,10 @@
+"""
+Multiprocessing
+
+Author: Daniel Jeon
+Website: https://github.com/danielljeon/basics_of_python
+"""
+
 from multiprocessing import Lock, Process, Value, Array, Pool, Manager
 import os
 
@@ -30,6 +37,7 @@ def __add_1_single_int(passed_int):
 
 # ---------- Multiprocess Logic Functions ----------
 
+
 def multiprocessing_with_shared_and_lock():
     lock = Lock()  # Create a lock
 
@@ -37,7 +45,9 @@ def multiprocessing_with_shared_and_lock():
 
     shared_number = Value("i", 0)  # 'd' = a double precision float | 'i' = a signed integer
 
-    shared_array = Array("d", [0.0, 100.0, 200.0])  # 'd' = a double precision float | 'i' = a signed integer
+    shared_array = Array(
+        "d", [0.0, 100.0, 200.0]
+    )  # 'd' = a double precision float | 'i' = a signed integer
     print(f"Shared Array at start: {shared_array[:]}")
 
     # pass the lock to the target function
@@ -65,7 +75,9 @@ def multiprocessing_with_manager_with_manager_list_and_lock():
         print(f"Shared Manager().list() at start: {manager_list}")
 
         # pass the lock to the target function
-        process_list.append(Process(target=__add_1_shared_array_and_lock, args=(manager_list, lock)))
+        process_list.append(
+            Process(target=__add_1_shared_array_and_lock, args=(manager_list, lock))
+        )
 
         for process in process_list:
             process.start()  # Start all processes
