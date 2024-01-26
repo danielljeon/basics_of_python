@@ -10,8 +10,8 @@ class Person:
     def __init__(self, value):
         self.name = value
 
-    # Use @abstractmethod decorator to create abstract property
     @property
+    # Use @abstractmethod decorator to create abstract property here
     def name(self):
         return self._name
 
